@@ -40,22 +40,21 @@ class Gameboard {
         }
     }
     recieveAttack(x,y) {
-        let cell = this.board[y][x]
-            if (this.checkForShot(x,y)) {
-                if (this.board[y][x].length === 0) {
-                    this.missedShots.push([x,y])
-                    //this.player.turn = false
-                    //enemy player turn = true
-                    return 'Miss!'
-                } else {
-                    this.hitShots.push([x,y])
-                    let hitShip = this.board[y][x][0]
-                    hitShip.hit()
-                    //this.player.turn = false
-                    //enemy player turn = true
-                    return 'Hit!'
-                }
+        if (this.checkForShot(x,y)) {
+            if (this.board[y][x].length === 0) {
+                this.missedShots.push([x,y])
+                //this.player.turn = false
+                //enemy player turn = true
+                return 'Miss!'
+            } else {
+                this.hitShots.push([x,y])
+                let hitShip = this.board[y][x][0]
+                hitShip.hit()
+                //this.player.turn = false
+                //enemy player turn = true
+                return 'Hit!'
             }
+        }
     }
     checkForShot(x,y) {
         if (!this.missedShots.includes([x,y])) {

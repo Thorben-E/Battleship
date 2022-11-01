@@ -25,37 +25,38 @@ const buildGame = () => {
     gameboard2.placeShip(gameboard2.ship5, 4, 4)
 
     const attack = (e) => {
-    let coordinateString = e.target.id
-    let coordinateArray = coordinateString.split(',')
-    const x = parseInt(coordinateArray[0])
-    const y = parseInt(coordinateArray[1])
-    console.log(gameboard2.recieveAttack(x,y))
+        let coordinateString = e.target.id
+        let coordinateArray = coordinateString.split(',')
+        const x = parseInt(coordinateArray[0])
+        const y = parseInt(coordinateArray[1])
+        console.log(gameboard2.recieveAttack(x,y))
 
-    if (gameboard2.allShipsSunk(gameboard2.board)) {
-        console.log(alert('ai lost'))
-    }}
+        if (gameboard2.allShipsSunk(gameboard2.board)) {
+            console.log(alert('ai lost'))
+        }
+    }
     
 
     const boardDisplay1 = (bigarray) => {
-    bigarray.forEach(array => {
-        array.forEach(element => {
-            let cell = document.createElement('div')
-            if (element.length > 0) {
-                cell.append(array[0].length)
-                cell.classList.add('ship')
-                let board = document.getElementById('board1')
-                cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
-                board.append(cell)
-            } else {
-                cell.classList.add('cell')
-                let board = document.getElementById('board1')
-                cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
-                board.append(cell)
-            }
-            cell.addEventListener('click', attack)
+        bigarray.forEach(array => {
+            array.forEach(element => {
+                let cell = document.createElement('div')
+                if (element.length > 0) {
+                    cell.append(array[0].length)
+                    cell.classList.add('ship')
+                    let board = document.getElementById('board1')
+                    cell.setAttribute('id', array.indexOf(element)+','+bigarray.indexOf(array))
+                    board.append(cell)
+                } else {
+                    cell.classList.add('cell')
+                    let board = document.getElementById('board1')
+                    cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
+                    board.append(cell)
+                }
+                cell.addEventListener('click', attack)
+            })
         })
-    })
-}
+    }
 
     const boardDisplay2 = (bigarray) => {
         bigarray.forEach(array => {
@@ -65,7 +66,7 @@ const buildGame = () => {
                     cell.append(array[0].length)
                     cell.classList.add('ship')
                     let board = document.getElementById('board2')
-                    cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
+                    cell.setAttribute('id', array.indexOf(element)+','+bigarray.indexOf(array))
                     board.append(cell)
                 } else {
                     cell.classList.add('cell')
@@ -73,7 +74,7 @@ const buildGame = () => {
                     cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
                     board.append(cell)
                 }
-                cell.addEventListener('click', (e) => {attack(e)})
+                cell.addEventListener('click', attack)
             })
         })
     }

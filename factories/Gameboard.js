@@ -27,20 +27,21 @@ class Gameboard {
             this.board[y][x] = [ship]
         } else if (ship.length === 2) {
             this.board[y][x] = [ship]
-            this.board[y][x+1] = [ship]
+            this.board[y+1][x] = [ship]
         } else if (ship.length === 3) {
             this.board[y][x] = [ship]
-            this.board[y][x+1] = [ship]
-            this.board[y][x+2] = [ship]
+            this.board[y+1][x] = [ship]
+            this.board[y+2][x] = [ship]
         } else if (ship.length === 4) {
             this.board[y][x] = [ship]
-            this.board[y][x+1] = [ship]
-            this.board[y][x+2] = [ship]
-            this.board[y][x+3] = [ship]
+            this.board[y+1][x] = [ship]
+            this.board[y+2][x] = [ship]
+            this.board[y+3][x] = [ship]
         }
     }
     recieveAttack(x,y) {
         if (this.checkForShot(x,y)) {
+            console.log(this.board[y][x])
             if (this.board[y][x].length === 0) {
                 this.missedShots.push([x,y])
                 //this.player.turn = false
@@ -54,15 +55,25 @@ class Gameboard {
                 //enemy player turn = true
                 return 'Hit!'
             }
+        } else {
+            return 'field has been shot already'
         }
     }
     checkForShot(x,y) {
-        if (!this.missedShots.includes([x,y])) {
-            if (!this.hitShots.includes([x,y])) {
-                return true
-            }
+        let arr1 = [x,y]
+        if (this.missedShots.length > 0) {
+            if ()
+            //als geen match na forEach, dan return true
+            this.missedShots.forEach(shot => {
+                if (arr1[0] === shot[0] && arr1[1] === shot[1]) {
+                    return false
+                } 
+            })
+        } else {
+            return true
         }
     }
+        
     allShipsSunk(array) {
         let result = []
             array.forEach(array => {

@@ -46,3 +46,13 @@ h1 {
     height: 40px;
     border: 1px solid black;
 }
+
+.miss {
+    background-color: gray;
+    color: gray;
+}
+
+.hit {
+    background-color: green;
+    color: green;
+}

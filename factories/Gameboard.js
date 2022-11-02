@@ -27,69 +27,51 @@ class Gameboard {
             this.board[y][x] = [ship]
         } else if (ship.length === 2) {
             this.board[y][x] = [ship]
-            this.board[y+1][x] = [ship]
+            this.board[y][x+1] = [ship]
         } else if (ship.length === 3) {
             this.board[y][x] = [ship]
-            this.board[y+1][x] = [ship]
-            this.board[y+2][x] = [ship]
+            this.board[y][x+1] = [ship]
+            this.board[y][x+2] = [ship]
         } else if (ship.length === 4) {
             this.board[y][x] = [ship]
-            this.board[y+1][x] = [ship]
-            this.board[y+2][x] = [ship]
-            this.board[y+3][x] = [ship]
+            this.board[y][x+1] = [ship]
+            this.board[y][x+2] = [ship]
+            this.board[y][x+3] = [ship]
         }
     }
-    recieveAttack(x,y) {
-        if (this.checkForShot(x,y)) {
-            console.log(this.board[y][x])
+    recieveAttack(x,y, boardname) {
+        if (this.checkForShot(x,y, boardname)) {
             if (this.board[y][x].length === 0) {
-                this.missedShots.push([x,y])
-                //this.player.turn = false
-                //enemy player turn = true
-                return 'Miss!'
+                return true
             } else {
-                this.hitShots.push([x,y])
                 let hitShip = this.board[y][x][0]
                 hitShip.hit()
                 //this.player.turn = false
                 //enemy player turn = true
-                return 'Hit!'
+                return false
             }
         } else {
+            console.log('field has been shot')
             return 'field has been shot already'
         }
     }
-    checkForShot(x,y) {
-        let arr1 = [x,y]
-        if (this.missedShots.length > 0) {
-            if ()
-            //als geen match na forEach, dan return true
-            this.missedShots.forEach(shot => {
-                if (arr1[0] === shot[0] && arr1[1] === shot[1]) {
-                    return false
-                } 
-            })
+    checkForShot(x,y, boardname) {
+        const shot = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="${boardname}"]`)
+        if (shot.textContent === 'M' || shot.innerHTML === 'X') {
+            return false
         } else {
             return true
         }
     }
         
-    allShipsSunk(array) {
-        let result = []
-            array.forEach(array => {
-                array.forEach(array => {
-                    if (array.length > 0) {
-                        if (array[0].hits > 0) {
-                            result.push(array)
-                        }
-                    }
-                })
-            })
-            if (result.length >= 12) {
-                return true
-            } else {
-                return false
-            }
+    allShipsSunk(gameboard) {
+        const hits = gameboard.ship1.hits + gameboard.ship2.hits + gameboard.ship3.hits + gameboard.ship4.hits + gameboard.ship5.hits
+        console.log(hits)
+        if (hits >= 12) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

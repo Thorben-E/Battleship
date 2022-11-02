@@ -1,6 +1,7 @@
 class Ship {
     constructor(length) {
         this.length = length;
+        this.type = 'ship';
         this.hits = 0;
     }
     hit() {

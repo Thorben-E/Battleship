@@ -25,62 +25,91 @@ const buildGame = () => {
     gameboard2.placeShip(gameboard2.ship5, 4, 4)
 
     const attack = (e) => {
-        let coordinateString = e.target.id
-        let coordinateArray = coordinateString.split(',')
-        const x = parseInt(coordinateArray[0])
-        const y = parseInt(coordinateArray[1])
-        console.log(gameboard2.recieveAttack(x,y))
+        const x = e.target.getAttribute('data-x')
+        const y = e.target.getAttribute('data-y')
+        if (gameboard2.recieveAttack(x,y, 'computer')) {
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="computer"]`)
+            cell.classList.add('miss')
+            cell.textContent = 'M'
+        } else {
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="computer"]`)
+            cell.classList.add('hit')
+            cell.textContent = 'X'
+        }
 
-        if (gameboard2.allShipsSunk(gameboard2.board)) {
-            console.log(alert('ai lost'))
+        if (gameboard2.allShipsSunk(gameboard2)) {
+            console.log(alert('ai '))
+        }
+
+        const cx = Math.floor(Math.random() * 8)
+        const cy = Math.floor(Math.random() * 8)
+        if (gameboard1.recieveAttack(cx,cy, 'player')) {
+            const cell = document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`)
+            cell.classList.add('miss')
+            cell.textContent = 'M'
+        } else {
+            const cell = document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`)
+            cell.classList.add('hit')
+            cell.textContent = 'X'
+        }
+
+        if (gameboard1.allShipsSunk(gameboard1)) {
+            alert('player ded')
         }
     }
     
 
-    const boardDisplay1 = (bigarray) => {
+    const buildDOMboard = (boardName) => {
+        const boardClass = document.getElementById(`${boardName}`);
+        for (let i = 0; i < 8; i += 1) {
+            for (let j = 0; j < 8; j += 1) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.setAttribute('data-x', j);
+                cell.setAttribute('data-y', i);
+                cell.setAttribute('data-board', boardName)
+
+                // adds attacking through DOM
+                if (boardName === 'computer') {
+                  cell.addEventListener('click', (e) => {
+                    attack(e);
+                  });
+                } else if (boardName === 'player') {
+                  
+                };
+                boardClass.append(cell);
+            }
+        }
+    };
+
+    buildDOMboard('player')
+    buildDOMboard('computer')
+
+
+    const updateShips = (bigarray, boardname) => {
         bigarray.forEach(array => {
             array.forEach(element => {
-                let cell = document.createElement('div')
                 if (element.length > 0) {
-                    cell.append(array[0].length)
-                    cell.classList.add('ship')
-                    let board = document.getElementById('board1')
-                    cell.setAttribute('id', array.indexOf(element)+','+bigarray.indexOf(array))
-                    board.append(cell)
-                } else {
-                    cell.classList.add('cell')
-                    let board = document.getElementById('board1')
-                    cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
-                    board.append(cell)
+                    const x = array.indexOf(element)
+                    const y = bigarray.indexOf(array)
+                    if (element[0].type === 'ship') {
+                        const selectedcell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="${boardname}"]`)
+                        if (boardname === 'player') {
+                            selectedcell.textContent = 'X'   
+                        }
+                    }   else if (element[0] === 'missedShot') {
+                        const selectedcell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="${boardname}"]`)
+                        if (boardname === 'player') {
+                            selectedcell.textContent = 'M'   
+                        }
+                    } 
                 }
-                cell.addEventListener('click', attack)
             })
         })
     }
 
-    const boardDisplay2 = (bigarray) => {
-        bigarray.forEach(array => {
-            array.forEach(element => {
-                let cell = document.createElement('div')
-                if (element.length > 0) {
-                    cell.append(array[0].length)
-                    cell.classList.add('ship')
-                    let board = document.getElementById('board2')
-                    cell.setAttribute('id', array.indexOf(element)+','+bigarray.indexOf(array))
-                    board.append(cell)
-                } else {
-                    cell.classList.add('cell')
-                    let board = document.getElementById('board2')
-                    cell.setAttribute('id', bigarray.indexOf(array)+','+array.indexOf(element))
-                    board.append(cell)
-                }
-                cell.addEventListener('click', attack)
-            })
-        })
-    }
-
-    boardDisplay1(gameboard1.board)
-    boardDisplay2(gameboard2.board)
+    /* updateShips(gameboard2.board, "player")
+    updateShips(gameboard1.board, "computer") */
 };
 
 export default buildGame

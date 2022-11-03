@@ -25,6 +25,10 @@ const buildGame = () => {
     gameboard2.placeShip(gameboard2.ship5, 4, 4)
 
     const attack = (e) => {
+        if (e.target.textContent != '') {
+            alert('choose another field')
+            return
+        }
         const x = e.target.getAttribute('data-x')
         const y = e.target.getAttribute('data-y')
         if (gameboard2.recieveAttack(x,y, 'computer')) {
@@ -40,9 +44,29 @@ const buildGame = () => {
         if (gameboard2.allShipsSunk(gameboard2)) {
             console.log(alert('ai '))
         }
+        checkIfShot()
+    }
 
+    const chooseCoordinates = () => {
         const cx = Math.floor(Math.random() * 8)
         const cy = Math.floor(Math.random() * 8)
+        return [cx, cy]
+    }
+
+    const checkIfShot = () => {
+        const arr = chooseCoordinates()
+        const cx = arr[0]
+        const cy = arr[1]
+        console.log(cx,cy)
+        console.log(document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`))
+        if (document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`).textContent != '') {
+            checkIfShot()
+        } else {
+            computerAttack(cx,cy)
+        }
+    }
+
+    const computerAttack = (cx,cy) => {
         if (gameboard1.recieveAttack(cx,cy, 'player')) {
             const cell = document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`)
             cell.classList.add('miss')

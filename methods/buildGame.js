@@ -1,5 +1,6 @@
 import Gameboard from '../factories/Gameboard'
 import Player from '../factories/Player'
+import { endgame, startgame } from './DOM';
 
 const buildGame = () => {
     //players
@@ -10,19 +11,13 @@ const buildGame = () => {
     const gameboard1 = new Gameboard()
     const gameboard2 = new Gameboard()
 
-    //player ships
-    gameboard1.placeShip(gameboard1.ship1, 1, 1)
-    gameboard1.placeShip(gameboard1.ship2, 2, 2)
-    gameboard1.placeShip(gameboard1.ship3, 3, 3)
-    gameboard1.placeShip(gameboard1.ship4, 5, 5)
-    gameboard1.placeShip(gameboard1.ship5, 4, 4)
-    
-    //computer ships
-    gameboard2.placeShip(gameboard2.ship1, 1, 1)
-    gameboard2.placeShip(gameboard2.ship2, 2, 2)
-    gameboard2.placeShip(gameboard2.ship3, 3, 3)
-    gameboard2.placeShip(gameboard2.ship4, 5, 5)
-    gameboard2.placeShip(gameboard2.ship5, 4, 4)
+    const computerPlaceShips = () => {
+        gameboard2.placeShip(gameboard2.ship1, Math.floor(Math.random() * 8), 2)
+        gameboard2.placeShip(gameboard2.ship2, Math.floor(Math.random() * 7), 0)
+        gameboard2.placeShip(gameboard2.ship3, Math.floor(Math.random() * 7), 3)
+        gameboard2.placeShip(gameboard2.ship4, Math.floor(Math.random() * 6), 5)
+        gameboard2.placeShip(gameboard2.ship5, Math.floor(Math.random() * 4), 7)
+    }
 
     const attack = (e) => {
         if (e.target.textContent != '') {
@@ -42,7 +37,7 @@ const buildGame = () => {
         }
 
         if (gameboard2.allShipsSunk(gameboard2)) {
-            console.log(alert('ai '))
+            endgame('player')
         }
         checkIfShot()
     }
@@ -57,8 +52,6 @@ const buildGame = () => {
         const arr = chooseCoordinates()
         const cx = arr[0]
         const cy = arr[1]
-        console.log(cx,cy)
-        console.log(document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`))
         if (document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`).textContent != '') {
             checkIfShot()
         } else {
@@ -78,9 +71,10 @@ const buildGame = () => {
         }
 
         if (gameboard1.allShipsSunk(gameboard1)) {
-            alert('player ded')
+            endgame('computer')
         }
     }
+
     
 
     const buildDOMboard = (boardName) => {
@@ -106,34 +100,61 @@ const buildGame = () => {
         }
     };
 
-    buildDOMboard('player')
-    buildDOMboard('computer')
 
+    const addDragToStartPopup = () => {
+        const draggables = []
+        const containers = document.querySelectorAll('.cell1')
+        for (let i=1;i<6;i++) {
+            draggables.push(document.getElementById(`ship${i}`))
+        }
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging')
+            })
+        })
 
-    const updateShips = (bigarray, boardname) => {
-        bigarray.forEach(array => {
-            array.forEach(element => {
-                if (element.length > 0) {
-                    const x = array.indexOf(element)
-                    const y = bigarray.indexOf(array)
-                    if (element[0].type === 'ship') {
-                        const selectedcell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="${boardname}"]`)
-                        if (boardname === 'player') {
-                            selectedcell.textContent = 'X'   
-                        }
-                    }   else if (element[0] === 'missedShot') {
-                        const selectedcell = document.querySelector(`[data-x="${x}"][data-y="${y}"][data-board="${boardname}"]`)
-                        if (boardname === 'player') {
-                            selectedcell.textContent = 'M'   
-                        }
-                    } 
-                }
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+            })
+        })
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                e.preventDefault()
+                const draggable = document.querySelector('.dragging')
+                container.appendChild(draggable)
             })
         })
     }
 
-    /* updateShips(gameboard2.board, "player")
-    updateShips(gameboard1.board, "computer") */
+
+    const startgameButton = () => {
+        if (document.getElementById('ships').childNodes.length != 0) {
+            const cells = document.querySelectorAll('.cell1')
+            cells.forEach(cell => {
+                if (cell.childNodes.length != 0) {
+                    let ship = `gameboard.${cell.firstChild.getAttribute('id')}`
+                    console.log(ship)
+                    console.log(typeof ship)
+                    let x = cell.firstChild.getAttribute('data-x')
+                    let y = cell.firstChild.getAttribute('data-y')
+                    gameboard1.placeShip(ship,x,y)
+                }
+            })
+            document.getElementById('startgame').remove()
+        } else {
+            alert('first place all the ships')
+            window.location.reload()
+        }
+    }
+
+    startgame()
+    computerPlaceShips()
+    buildDOMboard('player')
+    buildDOMboard('computer')
+    addDragToStartPopup()
+    document.getElementById('startgameButton').onclick = startgameButton
 };
 
 export default buildGame

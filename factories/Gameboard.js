@@ -66,7 +66,6 @@ class Gameboard {
         
     allShipsSunk(gameboard) {
         const hits = gameboard.ship1.hits + gameboard.ship2.hits + gameboard.ship3.hits + gameboard.ship4.hits + gameboard.ship5.hits
-        console.log(hits)
         if (hits >= 12) {
             return true
         } else {

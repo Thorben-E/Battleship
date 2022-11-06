@@ -38,6 +38,7 @@ class Gameboard {
             this.board[y][x+2] = [ship]
             this.board[y][x+3] = [ship]
         }
+        console.log(`${ship} has been placed`)
     }
     recieveAttack(x,y, boardname) {
         if (this.checkForShot(x,y, boardname)) {

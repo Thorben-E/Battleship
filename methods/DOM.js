@@ -1,25 +1,26 @@
-export { endgame, startgame }
-
-
+export { endgame, startgame, addDragToStartPopup };
 
 const endgame = (winner) => {
-        const winnerPopup = `<div class="endgame">
+  const winnerPopup = `<div class="endgame">
       <h2>GAME OVER</h2>
       <p>${winner} has won the game</p>
       <p>Play again?</p>
       <div class="buttons">
         <button id="newGame">Yes</button>
       </div>
-    `
-        const container = document.getElementById('container')
-        const endgamePopup = document.createRange().createContextualFragment(winnerPopup)
-        container.append(endgamePopup)
-        document.getElementById('newGame').onclick = newGame
-}
+    `;
+  const container = document.getElementById("container");
+  const endgamePopup = document
+    .createRange()
+    .createContextualFragment(winnerPopup);
+  container.append(endgamePopup);
+  document.getElementById("newGame").onclick = newGame;
+  document.getElementsByClassName(".endgame").remove();
+};
 
 const newGame = () => {
-        window.location.reload()
-}
+  window.location.reload();
+};
 
 const startgame = () => {
   const startPopup = `<div class="startgame" id="startgame">
@@ -34,19 +35,45 @@ const startgame = () => {
         <div class="ship5" id="ship5" draggable="true"></div>
       </div>
       <button id="startgameButton" class="startgameButton">Play</button>
-`
-  const container = document.getElementById('container')
-  const startgamePopup = document.createRange().createContextualFragment(startPopup)
-  container.append(startgamePopup)
-  const field = document.getElementById('field')
+`;
+  const container = document.getElementById("container");
+  const startgamePopup = document
+    .createRange()
+    .createContextualFragment(startPopup);
+  container.append(startgamePopup);
+  const field = document.getElementById("field");
   for (let i = 0; i < 8; i += 1) {
     for (let j = 0; j < 8; j += 1) {
-      const cell = document.createElement('div');
-      cell.classList.add('cell1');
-      cell.setAttribute('data-x', j);
-      cell.setAttribute('data-y', i);
+      const cell = document.createElement("div");
+      cell.classList.add("cell1");
+      cell.setAttribute("data-x", j);
+      cell.setAttribute("data-y", i);
       field.append(cell);
-
     }
   }
-}
+};
+
+const addDragToStartPopup = () => {
+  const draggables = [];
+  const containers = document.querySelectorAll(".cell1");
+  for (let i = 1; i < 6; i++) {
+    draggables.push(document.getElementById(`ship${i}`));
+  }
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", () => {
+      draggable.classList.add("dragging");
+    });
+  });
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragend", () => {
+      draggable.classList.remove("dragging");
+    });
+  });
+  containers.forEach((container) => {
+    container.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      const draggable = document.querySelector(".dragging");
+      container.appendChild(draggable);
+    });
+  });
+};

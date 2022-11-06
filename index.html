@@ -7,11 +7,14 @@
     <title>Vite App</title>
   </head>
   <body>
-    
     <div class="container" id="container">
       <h1>Battleship</h1>
-      <div class="board" id="player"></div>
-      <div class="board" id="computer"></div>
+      <div class="boards">
+        <div class="player"><p>Your board</p>
+        <div class="board" id="player"></div></div>
+        <div class="computer"><p>Computer board</p>
+        <div class="board" id="computer"></div></div>
+      </div>
     </div>
     <footer>Made by Thorben Egberink</footer>
     <script type="module" src="/main.js" defer></script>

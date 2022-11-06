@@ -31,17 +31,19 @@ const buildGame = () => {
         `[data-x="${x}"][data-y="${y}"][data-board="computer"]`
       );
       cell.classList.add("miss");
+      cell.classList.remove('cell');
       cell.textContent = "M";
     } else {
       const cell = document.querySelector(
         `[data-x="${x}"][data-y="${y}"][data-board="computer"]`
       );
       cell.classList.add("hit");
+      cell.classList.remove('cell');
       cell.textContent = "X";
     }
 
     if (gameboard2.allShipsSunk(gameboard2)) {
-      endgame("player");
+      endgame("player", "You won!");
     }
     checkIfShot();
   };
@@ -79,11 +81,12 @@ const buildGame = () => {
         `[data-x="${cx}"][data-y="${cy}"][data-board="player"]`
       );
       cell.classList.add("hit");
+      cell.classList.remove('placed')
       cell.textContent = "X";
     }
 
     if (gameboard1.allShipsSunk(gameboard1)) {
-      endgame("computer");
+      endgame("computer", 'You lost!');
     }
   };
 
@@ -112,7 +115,6 @@ const buildGame = () => {
     gameboard1.board.forEach(array => {
       array.forEach(item => {
         if (item.length > 0) {
-          console.log(gameboard1.board.indexOf(array), array.indexOf(item))
           let cy = gameboard1.board.indexOf(array)
           let cx = array.indexOf(item)
           const cell = document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`)
@@ -120,26 +122,26 @@ const buildGame = () => {
         }
       })
     })
-    console.log(gameboard1.board)
   }
 
   const startgameButton = () => {
-    if (document.getElementById("ships").childNodes.length != 0) {
+    console.log(typeof document.getElementById('ships').childNodes)
+    if (document.getElementById("ships").childNodes.length === 6) {
       const cells = document.querySelectorAll(".cell1");
       cells.forEach((cell) => {
         if (cell.childNodes.length != 0) {
           let x = parseInt(cell.getAttribute("data-x"));
           let y = parseInt(cell.getAttribute("data-y"));
-          console.log(x, y, typeof x, typeof y);
           gameboard1.placeShip(gameboard1[cell.firstChild.id], x, y);
         }
       });
       document.getElementById("startgame").remove();
       document.getElementById('container').classList.remove('background')
+      document.querySelector('footer').classList.add('background')
       showPlayerShips()
     } else {
-      alert("first place all the ships");
-      window.location.reload();
+        alert("first place all the ships");
+        window.location.reload();
     }
   };
 

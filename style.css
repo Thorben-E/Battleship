@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Island+Moments&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 body {
     margin: 0;
     width: 100vw;
     height: 100vh;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,17 +11,28 @@ body {
 }
 
 h1 {
-    margin: 30px;
-    font-size: 80px;
+    margin: 20px;
+    font-size: 60px;
+    text-align: center;
 }
 
 .container {
+    height: 100vh;
     width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.boards {
+    width: 100vw;
+    height: 350px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     justify-content: center;
+    flex-shrink: 1;
+    padding-bottom: 10px;
 }
 
 .background {
@@ -31,7 +43,6 @@ h1 {
     width: 350px;
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .cell,
@@ -39,8 +50,6 @@ h1 {
     width: 40px;
     height: 40px;
     border: 1px solid black;
-    /* background-color: white;
-    box-shadow: inset 0 0 0 0 lightgray; */
 }
 
 .cell:hover,
@@ -60,21 +69,27 @@ h1 {
 .miss {
     background-color: gray;
     color: gray;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
 }
 
 .hit {
     background-color: green;
     color: green;
+width: 40px;
+    height: 40px;
+    border: 1px solid black;
 }
 
 .placed {
-    background-color: gray;
+    background-color: red;
 }
 
 .endgame {
     position: fixed;
     background-color: lightgray;
-    width: 65vw;
+    width: 300px;
     height: 30vh;
     border-radius: 20px;
     display: flex;
@@ -88,7 +103,8 @@ h1 {
     z-index: 100;
     background-color: lightgray;
     border-radius: 10px;
-    width: 60vw;
+    min-width: 200px;
+    max-width: 600px;
     height: 80vh;
     padding: 20px;
     display: flex;
@@ -99,10 +115,15 @@ h1 {
 }
 
 .startgameButton {
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
+    width: 70px;
+    height: 30px;
+}
+
+.startgameButton:hover {
+    background-color: #1a3843;
+    color: white;
 }
 
 .ships {
@@ -114,7 +135,7 @@ h1 {
 
 .ship1 {
     width: 40px;
-    height: 40px;
+    height: 41px;
     background-color: black;
 }
 
@@ -126,7 +147,7 @@ h1 {
 
 .ship3 {
     width: 83px;
-    height: 40px;
+    height: 41px;
     background-color: black;
 }
 
@@ -138,7 +159,7 @@ h1 {
 
 .ship5 {
     width: 166px;
-    height: 40px;
+    height: 41px;
     background-color: black;
 }
 
@@ -148,5 +169,29 @@ h1 {
 
 footer {
     height: 30px;
+    width: 100vw;
     padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgray;
+}
+
+.newgameButton {
+    border-radius: 5px;
+    border: none;
+    width: 70px;
+    height: 30px;
+}
+
+.newgameButton:hover {
+    background-color: #1a3843;
+    color: white;
+}
+
+.player,
+.computer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

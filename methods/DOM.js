@@ -1,21 +1,22 @@
 export { endgame, startgame, addDragToStartPopup };
 
-const endgame = (winner) => {
+const endgame = (winner, title) => {
   const winnerPopup = `<div class="endgame">
-      <h2>GAME OVER</h2>
+      <h2>${title}</h2>
       <p>${winner} has won the game</p>
       <p>Play again?</p>
       <div class="buttons">
-        <button id="newGame">Yes</button>
+        <button id="newGame" class="newgameButton">Yes</button>
       </div>
     `;
-  const container = document.getElementById("container");
+  const container = document.querySelector('body');
   const endgamePopup = document
     .createRange()
     .createContextualFragment(winnerPopup);
   container.append(endgamePopup);
+  document.getElementById('container').classList.add('background')
+  document.querySelector('footer').classList.remove('background')
   document.getElementById("newGame").onclick = newGame;
-  document.getElementsByClassName(".endgame").remove();
 };
 
 const newGame = () => {
@@ -71,10 +72,43 @@ const addDragToStartPopup = () => {
     });
   });
   containers.forEach((container) => {
-    container.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      const draggable = document.querySelector(".dragging");
-      container.appendChild(draggable);
-    });
+    if (container.childNodes.length === 0) {
+      container.addEventListener("dragover", (e) => {
+        //e.preventDefault();
+        const draggable = document.querySelector(".dragging");
+        if (draggable.id === 'ship2') {
+          if (container.getAttribute('data-x') != '7') {
+            e.preventDefault();
+            container.appendChild(draggable);
+          }
+        } else if (draggable.id === 'ship3') {
+            if (container.getAttribute('data-x') != '7') {
+              e.preventDefault();
+              container.appendChild(draggable);
+            }
+        } else if (draggable.id === 'ship4') {
+            if (container.getAttribute('data-x') != '6') {
+              if (container.getAttribute('data-x') != '7') {
+                e.preventDefault();
+                container.appendChild(draggable);
+              } 
+            }
+        } else if (draggable.id === 'ship5') {
+            if (container.getAttribute('data-x') != '5') {
+              if (container.getAttribute('data-x') != '6') {
+                if (container.getAttribute('data-x') != '7') {
+                  e.preventDefault();
+                  container.appendChild(draggable); 
+                }
+              }
+            }
+        } else if (draggable.id === 'ship1') {
+            e.preventDefault();
+            container.appendChild(draggable);
+        }
+        /* console.log(draggable.id)
+        container.appendChild(draggable); */
+      });
+    }
   });
 };

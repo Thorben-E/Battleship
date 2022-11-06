@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Island+Moments&display=swap');
 body {
+    margin: 0;
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -16,9 +18,13 @@ h1 {
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: 20px;
     align-items: center;
     justify-content: center;
+}
+
+.background {
+    background: darkslategray;
 }
 
 .board {
@@ -61,6 +67,10 @@ h1 {
     color: green;
 }
 
+.placed {
+    background-color: gray;
+}
+
 .endgame {
     position: fixed;
     background-color: lightgray;
@@ -77,18 +87,28 @@ h1 {
     position: absolute;
     z-index: 100;
     background-color: lightgray;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 60vw;
     height: 80vh;
     padding: 20px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 20px;
+}
+
+.startgameButton {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
 }
 
 .ships {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -100,12 +120,12 @@ h1 {
 
 .ship2 {
     width: 83px;
-    height: 40px;
+    height: 42px;
     background-color: black;
 }
 
 .ship3 {
-    width: 82px;
+    width: 83px;
     height: 40px;
     background-color: black;
 }
@@ -123,5 +143,10 @@ h1 {
 }
 
 .dragging {
-    background-color: white;
+    background-color: #1a3843;
+}
+
+footer {
+    height: 30px;
+    padding: 10px;
 }

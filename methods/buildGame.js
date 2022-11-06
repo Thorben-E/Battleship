@@ -108,6 +108,21 @@ const buildGame = () => {
     }
   };
 
+  const showPlayerShips = () => {
+    gameboard1.board.forEach(array => {
+      array.forEach(item => {
+        if (item.length > 0) {
+          console.log(gameboard1.board.indexOf(array), array.indexOf(item))
+          let cy = gameboard1.board.indexOf(array)
+          let cx = array.indexOf(item)
+          const cell = document.querySelector(`[data-x="${cx}"][data-y="${cy}"][data-board="player"]`)
+          cell.classList.add('placed')
+        }
+      })
+    })
+    console.log(gameboard1.board)
+  }
+
   const startgameButton = () => {
     if (document.getElementById("ships").childNodes.length != 0) {
       const cells = document.querySelectorAll(".cell1");
@@ -120,6 +135,8 @@ const buildGame = () => {
         }
       });
       document.getElementById("startgame").remove();
+      document.getElementById('container').classList.remove('background')
+      showPlayerShips()
     } else {
       alert("first place all the ships");
       window.location.reload();

@@ -24,8 +24,8 @@ const newGame = () => {
 
 const startgame = () => {
   const startPopup = `<div class="startgame" id="startgame">
-      <h2>Choose your ships!</h2>
-      <p>Drag every ship on the board and click play</p>
+      <h2>Welcome to battleship</h2>
+      <p>Place your fleet</p>
       <div id="field" class="board"></div>
       <div class="ships" id="ships">
         <div class="ship1" id="ship1" draggable="true"></div>
@@ -36,7 +36,7 @@ const startgame = () => {
       </div>
       <button id="startgameButton" class="startgameButton">Play</button>
 `;
-  const container = document.getElementById("container");
+  const container = document.querySelector('body');
   const startgamePopup = document
     .createRange()
     .createContextualFragment(startPopup);
@@ -51,6 +51,7 @@ const startgame = () => {
       field.append(cell);
     }
   }
+  document.getElementById('container').classList.add('background')
 };
 
 const addDragToStartPopup = () => {
